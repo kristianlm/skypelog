@@ -1,0 +1,9 @@
+
+AC_INIT(skypelog.c)   #, 0.1, bugs@anyone.com)
+AM_INIT_AUTOMAKE(skypelog, 0.1)
+
+# Checks for programs.
+AC_PROG_CC
+AC_PROG_INSTALL
+AC_OUTPUT(Makefile)
+
