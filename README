@@ -1,0 +1,18 @@
+
+
+
+I took the one skypelog.c file and made it into a gbt project.
+
+See http://www.hackerfactor.com/blog/index.php?/archives/231-Skype-Logs.html
+
+If you're new to the gnu build tool like me, here's how you get this built:
+
+klm@lato:/tmp/skypelog (master)$ aclocal
+klm@lato:/tmp/skypelog (master)$ autoconf
+klm@lato:/tmp/skypelog (master)$ automake -a
+klm@lato:/tmp/skypelog (master)$ ./configure 
+klm@lato:/tmp/skypelog (master)$ make
+klm@lato:/tmp/skypelog (master)$ sudo make install
+
+
+best of luck!
