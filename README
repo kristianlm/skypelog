@@ -1,9 +1,20 @@
 
 
+A simple tool to read binary DBB databases and output its text equivalent.
 
-I took the one skypelog.c file and made it into a gbt project.
+This could be used to read the Skype chatlogs (stored unencrypted as chatmsg256.dbb in ~/.Skype/<username>/) 
+on some Skype versions. It may not work on the newest Windows-versions, but on my linux-variant (2.2) it
+stores these dbb files.
 
-See http://www.hackerfactor.com/blog/index.php?/archives/231-Skype-Logs.html
+
+Try this: 
+
+$ ./skypelog chatmsg*.dbb | sort | less
+and have fun!
+
+I took the one skypelog.c from this url:
+http://www.hackerfactor.com/blog/index.php?/archives/231-Skype-Logs.html
+and made it into a gbt project.
 
 If you're new to the gnu build tool like me, here's how you get this built:
 
