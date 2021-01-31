@@ -137,7 +137,7 @@
  typedef struct stat64 mystat;
 #else
 # define O_LARGEFILE 0
-# define fstat64(x,y) fstat(x,y)
+// # define fstat64(x,y) fstat(x,y)
 # define mmap64(a,b,c,d,e,f) mmap(a,b,c,d,e,f)
  typedef struct stat mystat;
 #endif
@@ -152,6 +152,13 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <fcntl.h>
+
+#include <vector>
+#include <string>
+#include <iostream>
+#include <locale>
+#include <codecvt>
+
 
 typedef uint8_t byte;
 typedef uint64_t offset;
@@ -177,7 +184,7 @@ int BlankFlag=0;
  SkypeCloseFile(): Close the memory map.
  This sets the globals.
  *********************************************/
-void	SkypeCloseFile	()
+void	SkypeCloseFile	( ... )
 {
   if (Memory) { munmap(Memory,MemorySize); }
   MemorySize=0;
@@ -203,7 +210,7 @@ void	SkypeOpenFile	(char *Filename)
     exit(-1);
     }
 
-  if (fstat64(FileIn,&Stat) == -1)
+  if (fstat(FileIn,&Stat) == -1)
     {
     fprintf(stderr,"ERROR: Unable to stat file (%s)\n",Filename);
     close(FileIn);
@@ -467,12 +474,17 @@ int	main	(int argc, char *argv[])
 		if (PrintString && First) { printf(" %c ",Divider); }
 		if (Verbose > 1) printf(" [%ld] ",(long)Number);
 		if (PrintString && Label) { printf("%s: ",Label); }
+                std::vector<byte> lwf_hack;
 		while((Index < RecordEnd) && (Memory[Index] > 0x03))
 		  {
-		  if (PrintString && isprint(Memory[Index]))
+                    if (Number == 508 ) // Message
+                      {
+                        lwf_hack.push_back( Memory[Index] );
+                      }
+                    else if (PrintString && isprint(Memory[Index]))
 		    {
-		    fputc(Memory[Index],stdout);
-		    First=1;
+                      fputc(Memory[Index],stdout);
+                      First=1;
 		    }
 		  else
 		    {
@@ -480,6 +492,17 @@ int	main	(int argc, char *argv[])
 		    }
 		  Index++;
 		  }
+                if (Number == 508 ) // Message
+                      {
+                        std::string lwf_hack_string( lwf_hack.begin(), lwf_hack.end() );
+                        std::cout << lwf_hack_string ;
+                      }
+                //std::wstring_convert<std::codecvt_utf8_utf16<char16_t>, char16_t> utf16conv;
+                //std::u16string utf16 = utf16conv.from_bytes( lwf_hack_string );
+                /* std::cout << utf16; */
+                //std::u8string test_s( "hello, world" );
+                /* std::printf( "%s", utf16 ); */
+                //std::printf( "%s", lwf_hack_string );
 		}
 	  } /* while reading record */
 	if (First || Verbose) { printf("\n"); }
