@@ -1,3 +1,8 @@
+# Update 2021-01-31 from lockywolf
+
+Okay, you now need `g++ -fpermissive`, and autotools is obviously broken.
+But the code now supports localised strings. Kinda. At least for Яussian.
+
 
 # Skypelog
 
